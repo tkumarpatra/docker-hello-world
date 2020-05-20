@@ -36,6 +36,22 @@ Hello World
 {"message":"Hello World, in28minutes"}
 ```
 
+### Automate the process 
+############## Basic
+
+1. Add a new file at project level:  "Dockerfile"
+2. Add the following to the file
+```
+ FROM openjdk:11
+ EXPOSE 8080
+ ADD target/docker-hello-world.jar docker-hello-world.jar
+ ENTRYPOINT ["sh", "-c", "java -jar /docker-hello-world.jar"]
+```
+3. Build the Docker Image using command<br>
+  `docker build -t docker-hello-world:wrkspc .`
+4. Run the Docker Container using <br>
+  `docker run -p 8080:8080 -d docker-hello-world:wrkspc`
+
 
 
  
