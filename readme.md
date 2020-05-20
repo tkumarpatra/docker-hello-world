@@ -2,17 +2,17 @@
 
 ### Steps for building the image and running the container
 
-1. Build a Jar 
-            - target/docker-hello-world.jar
-2. Setup the Prerequisites for Running the JAR 
-            - docker run -dit openjdk:11
-3. Copy the jar
-            - docker container cp target/docker-hello-world.jar <<container-name>>:/tmp
-            - docker container commit --change='CMD ["java","-jar","/tmp/docker-hello-world.jar"]' <<container-name>> docker-hello-world:latest
-4. Run the jar
-            - docker run -p 8080:8080 docker-hello-world:latest
-        Detached mode    
-            - docker run -p 8080:8080 -d docker-hello-world:latest
+1. Build a Jar <br>
+            &nbsp;&nbsp;&nbsp;&nbsp; - target/docker-hello-world.jar
+2. Setup the Prerequisites for Running the JAR <br>
+            &nbsp;&nbsp;&nbsp;&nbsp; - docker run -dit openjdk:11
+3. Copy the jar<br>
+            &nbsp;&nbsp;&nbsp;&nbsp; - docker container cp target/docker-hello-world.jar <<container-name>>:/tmp
+            &nbsp;&nbsp;&nbsp;&nbsp; - docker container commit --change='CMD ["java","-jar","/tmp/docker-hello-world.jar"]' <<container-name>> docker-hello-world:latest
+4. Run the jar<br>
+            &nbsp;&nbsp;&nbsp;&nbsp; - docker run -p 8080:8080 docker-hello-world:latest
+        <br>Detached mode    
+            &nbsp;&nbsp;&nbsp;&nbsp; - docker run -p 8080:8080 -d docker-hello-world:latest
 
 
 
