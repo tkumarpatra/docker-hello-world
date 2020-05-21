@@ -20,7 +20,7 @@ docker container commit --change='CMD ["java","-jar","/tmp/docker-hello-world.ja
 ``
 docker run -p 8080:8080 docker-hello-world:latest
 ``
-    &nbsp;&nbsp;&nbsp;&nbsp; <br>Detached mode    
+&nbsp;&nbsp;&nbsp;&nbsp; <br>Detached mode    
 &nbsp;&nbsp;&nbsp;&nbsp; 
 ``docker run -p 8080:8080 -d docker-hello-world:latest``
 
@@ -81,28 +81,80 @@ ENTRYPOINT ["java","-cp","app:app/lib/*","com.tanmay.docker.dockerhelloworld.Doc
 ```
 2. Add the following dependency in pom.xml
 ```
-            <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack</id>
-						<phase>package</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>${project.groupId}</groupId>
-									<artifactId>${project.artifactId}</artifactId>
-									<version>${project.version}</version>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>mave    n-dependency-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>unpack</id>
+            <phase>package</phase>
+            <goals>
+                <goal>unpack</goal>
+            </goals>
+            <configuration>
+                <artifactItems>
+                    <artifactItem>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>${project.artifactId}</artifactId>
+                        <version>${project.version}</version>
+                    </artifactItem>
+                </artifactItems>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
 ```
 3. Run maven command for image creation
 ``mvn spring-boot:build-image``
+
+
+########################### PLUGINS 
+
+### JIB plugin
+1. Remove the Dockerfile
+2. Add the below maven dependency
+```
+<plugin>
+	<groupId>com.google.cloud.tools</groupId>
+	<artifactId>jib-maven-plugin</artifactId>
+	<version>1.6.1</version>
+	<configuration>
+		<container>
+			<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+		</container>
+	</configuration>
+	<executions>
+		<execution>
+			<phase>package</phase>
+			<goals>
+				<goal>dockerBuild</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+```
+&nbsp;&nbsp;&nbsp;&nbsp; <br>Extra Configurations which makes it similar to Dockerfile
+&nbsp;&nbsp;&nbsp;&nbsp; 
+```
+<configuration>
+	<from>
+		<image>openjdk:alpine</image>
+	</from>
+	<to>
+		<image>in28min/${project.name}</image>
+		<tags>
+			<tag>${project.version}</tag>
+			<tag>latest</tag>
+		</tags>
+	</to>
+	<container>
+		<jvmFlags>
+			<jvmFlag>-Xms512m</jvmFlag>
+		</jvmFlags>
+		<mainClass>com.in28minutes.rest.webservices.restfulwebservices.RestfulWebServicesApplication</mainClass>
+		<ports>
+			<port>8100</port>
+		</ports>
+	</container>
+</configuration>
+```
